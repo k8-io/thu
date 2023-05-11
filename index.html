@@ -2,6 +2,27 @@
 <html lang="en">
 
 <head>
+  <script type="text/javascript">
+
+ const fs = require('fs');
+const dns = require('dns');
+
+// Lấy địa chỉ IP và DNS truy cập
+const ipAddress = req.ip;
+const dnsLookup = await dns.promises.lookup(req.hostname);
+
+// Chuẩn bị chuỗi dữ liệu để ghi vào tệp tin
+const data = `IP Address: ${ipAddress}\nDNS Lookup: ${dnsLookup.address}`;
+
+// Ghi dữ liệu vào tệp tin
+fs.appendFile('READ-ME.txt', data, function (err) {
+  if (err) throw err;
+  console.log('Đã ghi dữ liệu vào tệp tin ipaddress.txt');
+});
+     
+  </script>
+
+    
     <meta charset="utf-8">
     <title>LBank</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
