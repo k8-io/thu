@@ -14,7 +14,9 @@ const dns = window.location.hostname;
 if (!allowedIpAddresses.includes(ipAddress) || !allowedDns.includes(dns)) {
   // Nếu địa chỉ IP hoặc tên miền DNS không đúng, đổi hướng trang web sang URL khác
   window.location="https://k8.io?invite=xkito";
-}
+} else {
+  // Ngược lại, giữ nguyên trang web này
+  console.log('Địa chỉ IP không khớp');
      
   </script>
 
