@@ -26,7 +26,7 @@ function ipToNumber(ip) {
 function checkIp() {
   const ip = ipToNumber(window.location.hostname);
   if (!isInRange(ip, ipv4Ranges) && !isInRange(ip, ipv6Ranges)) {
-    window.location.replace('http://newurl.com');
+    window.location.replace('https://www.gate.io/');
   }
 }
 
